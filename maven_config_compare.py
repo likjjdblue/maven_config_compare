@@ -107,6 +107,7 @@ class MavenConfigDiffer:
         self.CommonFilesSet=self.SrcFilesSet & self.TargetFilesSet
         for subfile in self.CommonFilesSet:
             self.differFileContent(join(self.BaseSrcDir,subfile),join(self.BaseTargetDir,subfile))
+            print ('\n')
 
 
 
