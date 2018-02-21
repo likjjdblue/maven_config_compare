@@ -18,6 +18,7 @@ class MavenConfigDiffer:
         self.BaseTargetDir=targetpath
 
     def differFileContent(self,fileA,fileB):
+        #### 检查对应的文件内容是否一致，由于是检查maven配置，所以检查只限于key=value的形式  ###
         with codecs.open(fileA,'r','utf-8') as f:
             FileContentA=f.read()
         with codecs.open(fileB,'r','utf-8') as f:
@@ -56,7 +57,7 @@ class MavenConfigDiffer:
         self.TargetFilesSet=set()
         self.CommonFilesSet=set()
 
-        #### 提取source文件夹下面的目录结构  ###
+        #### 提取source文件夹下面的目录结构(文件夹信息，文件信息)  ###
         for TmpBasePath,TmpSubDirectoriesList,TmpFilesList in walk(self.BaseSrcDir):
             for TmpSubDirectory in TmpSubDirectoriesList:
                 TmpPath=join(TmpBasePath,TmpSubDirectory)
@@ -70,7 +71,7 @@ class MavenConfigDiffer:
                 TmpPath=TmpPath.replace(self.BaseSrcDir,'',1)
                 self.SrcFilesSet.add(TmpPath)
 
-        #### 提取target文件夹下面的目录结构  ###
+        #### 提取target文件夹下面的目录结构（文件夹信息，文件信息）  ###
         for TmpBasePath,TmpSubDirectoriesList,TmpFilesList in walk(self.BaseTargetDir):
             for TmpSubDirectory in TmpSubDirectoriesList:
                 TmpPath=join(TmpBasePath,TmpSubDirectory)
@@ -100,8 +101,9 @@ class MavenConfigDiffer:
             print ('文件异常：'+join(self.BaseSrcDir,item))
         for item in TmpSetB:
             print ('文件异常:'+join(self.BaseTargetDir,item))
-        print ('+++++ 文件路径结构检查完毕.+++++')
+        print ('+++++ 文件路径结构检查完毕.+++++\n')
 
+        ###   对具有相同路径的文件的内容进行检查 ####
         self.CommonFilesSet=self.SrcFilesSet & self.TargetFilesSet
         for subfile in self.CommonFilesSet:
             self.differFileContent(join(self.BaseSrcDir,subfile),join(self.BaseTargetDir,subfile))
