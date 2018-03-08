@@ -19,6 +19,7 @@ class MavenConfigDiffer:
 
     def differFileContent(self,fileA,fileB):
         #### 检查对应的文件内容是否一致，由于是检查maven配置，所以检查只限于key=value的形式  ###
+        print ('即将对比文件：'+str(fileA)+' & '+str(fileB))
         with codecs.open(fileA,'r','utf-8') as f:
             FileContentA=f.read()
         with codecs.open(fileB,'r','utf-8') as f:
