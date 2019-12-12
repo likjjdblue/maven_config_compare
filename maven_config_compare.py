@@ -6,6 +6,7 @@ from os.path import isdir,isfile,abspath,join
 import os
 import re
 import codecs
+import subprocess
 
 class MavenConfigDiffer:
     def __init__(self,srcpath='source/',targetpath='target/'):
@@ -47,6 +48,18 @@ class MavenConfigDiffer:
         for item in TmpDifferB:
             print (fileB+u'内容异常：'+item[0])
         print ('+++++++++   END    #######')
+
+
+    def compareFileFigerPrint(self,fileA,fileB):
+      TmpHash4FileA=subprocess.Popen('md5sum %s'%(fileA,),shell=True,stdout=subprocess.PIPE).communicate()[0]
+      TmpHash4FileB=subprocess.Popen('md5sum %s'%(fileB,),shell=True,stdout=subprocess.PIPE).communicate()[0]
+
+      TmpA=TmpHash4FileA.split()[0].strip()
+      TmpB=TmpHash4FileB.split()[0].strip()
+
+      if TmpA != TmpB:
+        print ('%s \n %s not matched !\n'%(fileA,fileB))
+
 
 
 
